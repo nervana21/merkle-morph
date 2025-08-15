@@ -1,0 +1,10 @@
+# Rust
+target/
+debug/
+Cargo.lock
+
+# Tests artifacts
+mutants.out*
+
+# OS
+.DS_Store
