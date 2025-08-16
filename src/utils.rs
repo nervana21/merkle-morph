@@ -23,20 +23,6 @@ pub fn compute_hash_chain(old: Bytes32, input: &[u8]) -> Bytes32 {
     hasher.finalize().into()
 }
 
-/// Computes the channel-specific commitment from channel ID, commitment, and nonce.
-/// Uses domain separation with tag "MM_CHANNEL_v1" for future-proofing.
-pub fn compute_channel_commitment(channel_id: Bytes32, commitment: Bytes32, nonce: u64) -> Bytes32 {
-    let mut hasher = Sha256::new();
-    hasher.update(b"MM_CHANNEL_v1");
-    hasher.update(channel_id);
-    hasher.update(commitment);
-    hasher.update(nonce.to_le_bytes());
-    let out = hasher.finalize();
-    let mut result = [0u8; 32];
-    result.copy_from_slice(&out);
-    result
-}
-
 /// Applies a wallet update to the global state and increases nonce by 1
 pub fn global_apply_wallet_update(global: &State, wallet_commitment: Bytes32) -> State {
     let mut next = global.clone();
@@ -76,25 +62,6 @@ mod tests {
         let chain1 = compute_hash_chain(compute_hash_chain(empty, b"a"), b"b");
         let chain2 = compute_hash_chain(empty, b"ab");
         assert_ne!(chain1, chain2); // chaining != concatenation
-    }
-
-    #[test]
-    fn test_compute_channel_commitment() {
-        let id1 = [1u8; 32];
-        let id2 = [2u8; 32];
-        let commit1 = [3u8; 32];
-        let commit2 = [4u8; 32];
-
-        // Test uniqueness across all parameters
-        let commitment1 = compute_channel_commitment(id1, commit1, 1);
-        let commitment2 = compute_channel_commitment(id2, commit1, 1);
-        let commitment3 = compute_channel_commitment(id1, commit2, 1);
-        let commitment4 = compute_channel_commitment(id1, commit1, 2);
-
-        assert_ne!(commitment1, commitment2); // different channel_id
-        assert_ne!(commitment1, commitment3); // different commitment
-        assert_ne!(commitment1, commitment4); // different nonce
-        assert_ne!(commitment1, [0u8; 32]); // not default
     }
 
     #[test]
