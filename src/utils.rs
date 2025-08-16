@@ -23,24 +23,6 @@ pub fn compute_hash_chain(old: Bytes32, input: &[u8]) -> Bytes32 {
     hasher.finalize().into()
 }
 
-/// Applies a wallet update to the global state and increases nonce by 1
-pub fn global_apply_wallet_update(global: &State, wallet_commitment: Bytes32) -> State {
-    let mut next = global.clone();
-
-    // Create input that includes the wallet commitment
-    let mut input = Vec::new();
-    input.extend_from_slice(b"wallet-update:");
-    input.extend_from_slice(&wallet_commitment);
-
-    // Update global state hash using the existing hash mechanism
-    next.root = compute_hash_chain(global.root, &input);
-
-    // Nonce +1 invariant
-    next.nonce = global.nonce + 1;
-
-    next
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -62,33 +44,5 @@ mod tests {
         let chain1 = compute_hash_chain(compute_hash_chain(empty, b"a"), b"b");
         let chain2 = compute_hash_chain(empty, b"ab");
         assert_ne!(chain1, chain2); // chaining != concatenation
-    }
-
-    #[test]
-    fn test_global_apply_wallet_update() {
-        let global = State {
-            root: [0u8; 32],
-            nonce: 0,
-        };
-        let wallet_commitment = [21u8; 32];
-
-        let updated_global = global_apply_wallet_update(&global, wallet_commitment);
-
-        // Test nonce increment
-        assert_eq!(updated_global.nonce, global.nonce + 1);
-
-        // Test state hash changes
-        assert_ne!(updated_global.root, global.root);
-
-        // Test determinism
-        let updated_global2 = global_apply_wallet_update(&global, wallet_commitment);
-        assert_eq!(updated_global.root, updated_global2.root);
-        assert_eq!(updated_global.nonce, updated_global2.nonce);
-
-        // Test different inputs produce different results
-        let different_wallet_commitment = [99u8; 32];
-        let updated_global3 = global_apply_wallet_update(&global, different_wallet_commitment);
-        assert_ne!(updated_global.root, updated_global3.root);
-        assert_eq!(updated_global3.nonce, global.nonce + 1);
     }
 }
