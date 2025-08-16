@@ -37,7 +37,7 @@ assert!(transition.verify(&genesis, &HashTransitionVerifier));
 ### Complete State Channel System
 
 ```rust
-use merkle_morph::{State, wallet::{WalletState, wallet_apply_channel}, channel::ChannelState, global_apply_channel_delta};
+use merkle_morph::{State, wallet::{WalletState, insert_channel}, channel::ChannelState, global_apply_channel_delta};
 
 // Setup initial states
 let global = State { root: [0u8; 32], nonce: 0 };
@@ -45,7 +45,7 @@ let wallet = WalletState::new([1u8; 32]);
 let channel = ChannelState::new([5u8; 32], [100, 0]);
 
 // Add the channel to the wallet first
-let wallet = wallet_apply_channel(&wallet, channel.clone());
+let wallet = insert_channel(&wallet, channel.clone());
 
 // Apply a channel delta and propagate through the entire system
 let (updated_global, updated_wallet, updated_channel) =
