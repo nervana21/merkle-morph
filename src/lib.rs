@@ -7,8 +7,12 @@
 //! A Rust library for unidirectional state channels and
 //! zero-knowledge authentication.
 
+// Error types and handling
+pub mod errors;
+
 // Core type definitions
 pub mod types;
 
 // Commonly exported types
+pub use errors::{Error, Result};
 pub use types::Bytes32;
