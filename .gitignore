@@ -1,0 +1,12 @@
+# Rust
+target/
+debug/
+
+# Tests artifacts
+mutants.out*
+
+# OS
+.DS_Store
+
+# Corpus directories (tracked as gitlinks but not submodules)
+corpus/
