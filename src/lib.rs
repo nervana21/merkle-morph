@@ -13,6 +13,9 @@ pub mod errors;
 // Core type definitions
 pub mod types;
 
+// Utility functions
+mod utils;
+
 // Commonly exported types
 pub use errors::{Error, Result};
 pub use types::Bytes32;
