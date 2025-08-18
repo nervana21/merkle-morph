@@ -1,0 +1,13 @@
+additional_cargo_args = ["--all-features"]
+examine_globs = ["src/**/*.rs"]
+exclude_globs = []
+exclude_re = [
+    # General exclusions
+    "impl Arbitrary",
+    "impl Debug",
+    "impl fmt::Debug",
+    ".*Error",
+    "deserialize", # Skip serde mutation tests
+    "serde_details::<impl de::Visitor<'_>", # Skip serde mutation tests
+    "Iterator", # Mutating operations in an iterator can result in an infinite loop
+]

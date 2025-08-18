@@ -1,0 +1,6 @@
+[test_config]
+exclude-files = [
+    "corpus/**",
+    "docs/**",
+    "target/**",
+]

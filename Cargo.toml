@@ -1,0 +1,50 @@
+[package]
+name = "merkle-morph"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.56"
+description = "Zero-knowledge state channels anchored to Bitcoin."
+readme = "README.md"
+license = "CC0-1.0"
+repository = "https://github.com/nervana21/merkle-morph"
+homepage = "https://github.com/nervana21/merkle-morph"
+documentation = "https://docs.rs/merkle-morph"
+keywords = ["bitcoin", "payment-channels", "zkp", "merkle", "stark"]
+categories = ["cryptography", "cryptography::cryptocurrencies"]
+
+[workspace]
+
+[dependencies]
+thiserror = "2.0.17"
+bitcoin = { version = "0.32", default-features = false, features = ["std", "bitcoinconsensus"] }
+miniscript = { version = "13.0", features = ["compiler"] }
+# Silent Payments support (BIP 352) - experimental
+bdk_sp = { git = "https://github.com/bitcoindevkit/bdk-sp", package = "bdk_sp" }
+
+# Plonky3 dependencies for STARK proofs
+p3-air = "0.3"
+p3-baby-bear = "0.3"
+p3-challenger = "0.3"
+p3-commit = "0.3"
+p3-dft = "0.3"
+p3-field = "0.3"
+p3-fri = "0.3"
+p3-matrix = "0.3"
+p3-merkle-tree = "0.3"
+p3-poseidon2 = "0.3"
+p3-poseidon2-air = "0.3"
+p3-symmetric = "0.3"
+p3-uni-stark = "0.3"
+rand = "0.9"
+quick_cache = "0.6.18"
+
+[dev-dependencies]
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+anyhow = "1.0.100"
+tokio = { version = "1.0", features = ["full"] }
+tempfile = "3.10"
+bitcoin-core-client-rpc-30-0-0 = { path = "../../outputs/generated/bitcoin-core-client-rpc-30-0-0" }
+
+[features]
+default = []
