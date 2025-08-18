@@ -1,0 +1,16 @@
+# Rust
+target/
+debug/
+
+# Test artifacts
+mutants.out*
+
+# Tooling
+.cargo/
+.cursor/
+
+# Project data
+corpus/
+
+# macOS
+.DS_Store

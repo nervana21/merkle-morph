@@ -1,0 +1,56 @@
+[package]
+name = "merkle-morph"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+description = "Zero-knowledge state channels secured by Bitcoin."
+readme = "README.md"
+license = "CC0-1.0"
+repository = "https://github.com/nervana21/merkle-morph"
+homepage = "https://github.com/nervana21/merkle-morph"
+documentation = "https://docs.rs/merkle-morph"
+keywords = ["bitcoin", "merkle", "payment-channels", "zkp"]
+categories = ["cryptography", "cryptography::cryptocurrencies"]
+
+[workspace]
+
+[dependencies]
+async-trait = "0.1"
+bdk_sp = { path = "../bitcoin-0.33/bdk-sp/silentpayments", package = "bdk_sp" }
+bitcoin = { path = "/Users/bitnode/ethos/corpus/rust-bitcoin/bitcoin", default-features = false, features = ["std", "bitcoinconsensus"] }
+futures = "0.3"
+miniscript = { path = "../bitcoin-0.33/rust-miniscript", features = ["compiler"] }
+p3-air = "0.4.0"
+p3-baby-bear = "0.4.0"
+p3-challenger = "0.4.0"
+p3-commit = "0.4.0"
+p3-dft = "0.4.0"
+p3-field = "0.4.0"
+p3-fri = "0.4.0"
+p3-matrix = "0.4.0"
+p3-merkle-tree = "0.4.0"
+p3-poseidon2 = "0.4.0"
+p3-poseidon2-air = "0.4.0"
+p3-symmetric = "0.4.0"
+p3-uni-stark = "0.4.0"
+quick_cache = "0.6.18"
+rand = "0.9"
+seahash = "4.1.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.148"
+thiserror = "2.0.17"
+
+[dev-dependencies]
+anyhow = "1.0.100"
+base64 = "0.22"
+bitcoin-core-client-rpc-30-0-0 = { path = "/Users/bitnode/ethos/outputs/generated/bitcoin-core-client-rpc-30-0-0" }
+hex = "0.4"
+reqwest = { version = "0.13.1", features = ["json"] }
+tempfile = "3.24.0"
+tokio = { version = "1.49.0", features = ["full"] }
+
+[features]
+default = []
+
+[patch.crates-io]
+bitcoin = { path = "/Users/bitnode/ethos/corpus/rust-bitcoin/bitcoin" }
