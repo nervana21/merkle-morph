@@ -1,0 +1,9 @@
+# Rust
+target/
+debug/
+
+# Tests artifacts
+mutants.out*
+
+# OS
+.DS_Store
