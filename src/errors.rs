@@ -5,7 +5,7 @@
 
 use thiserror::Error;
 
-use crate::types::ChannelId;
+use crate::types::{ChannelId, WalletId};
 
 /// The main error type for the Merkle Morph library
 #[derive(Error, Debug, Clone, PartialEq, Eq)]
@@ -18,6 +18,10 @@ pub enum Error {
     /// Wallet-related errors
     #[error(transparent)]
     Wallet(#[from] WalletError),
+
+    /// Global state errors
+    #[error(transparent)]
+    Global(#[from] GlobalError),
 }
 
 /// Errors that can occur during channel operations
@@ -56,6 +60,19 @@ pub enum WalletError {
     /// Wallet nonce overflow
     #[error("Nonce overflow: cannot increment further")]
     WalletNonceOverflow,
+}
+
+/// Errors that can occur during global state operations
+#[derive(Error, Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum GlobalError {
+    /// Wallet not found in global state
+    #[error("Wallet not found in global state: {0:?}")]
+    WalletNotFound(WalletId),
+
+    /// Global state nonce overflow
+    #[error("Global state nonce overflow: cannot increment further")]
+    GlobalNonceOverflow,
 }
 
 /// Result type alias for the library
