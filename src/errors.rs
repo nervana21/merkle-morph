@@ -5,6 +5,8 @@
 
 use thiserror::Error;
 
+use crate::types::ChannelId;
+
 /// The main error type for the Merkle Morph library
 #[derive(Error, Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
@@ -38,7 +40,23 @@ pub enum ChannelError {
     #[error("Nonce overflow: cannot increment further")]
     ChannelNonceOverflow,
 }
-pub enum Error {}
+
+/// Errors that can occur during wallet operations
+#[derive(Error, Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
+pub enum WalletError {
+    /// Channel-related errors
+    #[error(transparent)]
+    Channel(#[from] ChannelError),
+
+    /// Channel not found in wallet
+    #[error("Channel not found in wallet: {0:?}")]
+    ChannelNotFound(ChannelId),
+
+    /// Wallet nonce overflow
+    #[error("Nonce overflow: cannot increment further")]
+    WalletNonceOverflow,
+}
 
 /// Result type alias for the library
 pub type Result<T> = std::result::Result<T, Error>;
