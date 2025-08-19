@@ -7,6 +7,9 @@
 //! A Rust library for unilateral state channels and
 //! zero-knowledge authentication.
 
+// Channel state management and operations
+pub mod channel;
+
 // Error types and handling
 pub mod errors;
 
