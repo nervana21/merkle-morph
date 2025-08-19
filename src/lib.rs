@@ -13,6 +13,8 @@ pub mod channel;
 // Error types and handling
 pub mod errors;
 
+// Global state management
+pub mod global;
 
 // Core type definitions
 pub mod types;
